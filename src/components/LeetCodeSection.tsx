@@ -1,3 +1,5 @@
+import LeetCodeHeatmap from "./LeetCodeHeatmap";
+
 const stats = [
   { label: "Problems Solved", value: "152" },
   { label: "Submissions", value: "575" },
@@ -42,6 +44,9 @@ const LeetCodeSection = () => {
           </div>
         ))}
       </div>
+
+      {/* Heatmap */}
+      <LeetCodeHeatmap />
 
       {/* Breakdown bar */}
       <div className="mb-8">
