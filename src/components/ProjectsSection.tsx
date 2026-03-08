@@ -36,24 +36,26 @@ const ProjectsSection = () => {
       </AnimatedSection>
       {projects.map((project, i) => (
         <AnimatedSection key={project.name} delay={i * 0.1}>
-          <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`block p-6 md:p-12 hover:bg-secondary/50 transition-all duration-300 group ${i < projects.length - 1 ? "border-b" : ""}`}
-          >
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="font-serif text-xl md:text-3xl italic group-hover:underline">{project.name}</h3>
-              <div className="flex items-center gap-2">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground border px-2 py-1">
-                  {project.type}
-                </span>
-                <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+          <Tilt3DCard>
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`block p-6 md:p-12 hover:bg-secondary/50 transition-all duration-300 group ${i < projects.length - 1 ? "border-b" : ""}`}
+            >
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-serif text-xl md:text-3xl italic group-hover:underline">{project.name}</h3>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground border px-2 py-1">
+                    {project.type}
+                  </span>
+                  <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all duration-300" />
+                </div>
               </div>
-            </div>
-            <p className="text-muted-foreground mb-3 max-w-xl">{project.description}</p>
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">{project.tech}</p>
-          </a>
+              <p className="text-muted-foreground mb-3 max-w-xl">{project.description}</p>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{project.tech}</p>
+            </a>
+          </Tilt3DCard>
         </AnimatedSection>
       ))}
     </div>
