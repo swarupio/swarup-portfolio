@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 
 const HeroSection = () => {
   const [time, setTime] = useState(new Date());
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
 
   const formattedTime = time.toLocaleTimeString("en-IN", { hour12: false, timeZone: "Asia/Kolkata" });
   const formattedDate = time.toLocaleDateString("en-US", {
@@ -23,7 +28,12 @@ const HeroSection = () => {
         <div className="p-4 border-r">
           <span>Swarup Patil</span>
         </div>
-        <div className="p-4 border-r">Portfolio</div>
+        <div
+          className="p-4 border-r cursor-pointer hover:bg-secondary transition-colors select-none"
+          onClick={() => setIsDark(!isDark)}
+        >
+          {isDark ? "Light Edition" : "Dark Edition"}
+        </div>
         <div className="p-4 border-r font-mono">{formattedTime}</div>
         <div className="p-4">{formattedDate}</div>
       </div>
