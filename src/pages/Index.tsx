@@ -32,14 +32,6 @@ const Index = () => {
           <LeetCodeSection />
         </div>
         <div className="lg:col-span-5">
-          {/* Avatar - like reference site */}
-          <div className="border-b overflow-hidden bg-secondary/30">
-            <img
-              src={avatarImg}
-              alt="Swarup Patil avatar"
-              className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
-          </div>
           <ExperienceSection />
           <SkillsSection />
           <EducationSection />
