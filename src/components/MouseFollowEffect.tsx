@@ -28,7 +28,7 @@ const MouseFollowEffect = () => {
       />
       {/* Small dot */}
       <motion.div
-        className="absolute w-3 h-3 rounded-full bg-primary/20"
+        className="absolute w-3 h-3 rounded-full bg-primary/10"
         animate={{
           x: mousePosition.x - 6,
           y: mousePosition.y - 6,
