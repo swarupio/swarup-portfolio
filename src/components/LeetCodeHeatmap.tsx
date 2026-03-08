@@ -9,33 +9,22 @@ const USERNAME = "swarup__";
 const LeetCodeHeatmap = () => {
   const [calendar, setCalendar] = useState<CalendarData>({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchCalendar = async () => {
       try {
-        const response = await fetch("https://leetcode.com/graphql/", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            query: `
-              query userProfileCalendar($username: String!, $year: Int) {
-                matchedUser(username: $username) {
-                  userCalendar(year: $year) {
-                    submissionCalendar
-                  }
-                }
-              }
-            `,
-            variables: { username: USERNAME, year: new Date().getFullYear() },
-          }),
-        });
-        const data = await response.json();
-        const calStr = data?.data?.matchedUser?.userCalendar?.submissionCalendar;
-        if (calStr) {
-          setCalendar(JSON.parse(calStr));
+        const res = await fetch(`https://leetcode-api-faisalshohag.vercel.app/${USERNAME}`);
+        const data = await res.json();
+        if (data?.submissionCalendar) {
+          const parsed = typeof data.submissionCalendar === "string"
+            ? JSON.parse(data.submissionCalendar)
+            : data.submissionCalendar;
+          setCalendar(parsed);
         }
       } catch (err) {
         console.error("Failed to fetch LeetCode calendar:", err);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -43,11 +32,10 @@ const LeetCodeHeatmap = () => {
     fetchCalendar();
   }, []);
 
-  // Build weeks for the last 52 weeks
+  // Build 52 weeks of data
   const now = new Date();
   const weeks: { date: Date; count: number }[][] = [];
 
-  // Start from 52 weeks ago, aligned to Sunday
   const start = new Date(now);
   start.setDate(start.getDate() - (52 * 7) - start.getDay());
 
@@ -55,48 +43,43 @@ const LeetCodeHeatmap = () => {
   const cursor = new Date(start);
 
   while (cursor <= now) {
-    const ts = Math.floor(new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()).getTime() / 1000).toString();
-    currentWeek.push({
-      date: new Date(cursor),
-      count: calendar[ts] || 0,
-    });
+    const dayStart = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate());
+    const ts = Math.floor(dayStart.getTime() / 1000).toString();
+    currentWeek.push({ date: new Date(cursor), count: calendar[ts] || 0 });
 
-    if (cursor.getDay() === 6 || cursor.getTime() >= now.getTime()) {
+    if (cursor.getDay() === 6) {
       weeks.push(currentWeek);
       currentWeek = [];
     }
-
     cursor.setDate(cursor.getDate() + 1);
   }
   if (currentWeek.length > 0) weeks.push(currentWeek);
 
   const getColor = (count: number): string => {
-    if (count === 0) return "bg-muted";
-    if (count <= 1) return "bg-purple-300 dark:bg-purple-800";
-    if (count <= 3) return "bg-purple-400 dark:bg-purple-600";
-    if (count <= 5) return "bg-purple-500 dark:bg-purple-500";
-    return "bg-purple-600 dark:bg-purple-400";
+    if (count === 0) return "heatmap-0";
+    if (count <= 1) return "heatmap-1";
+    if (count <= 3) return "heatmap-2";
+    if (count <= 5) return "heatmap-3";
+    return "heatmap-4";
   };
-
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-  // Determine month labels
-  const monthLabels: { label: string; col: number }[] = [];
-  let lastMonth = -1;
-  weeks.forEach((week, i) => {
-    const firstDay = week[0];
-    if (firstDay && firstDay.date.getMonth() !== lastMonth) {
-      lastMonth = firstDay.date.getMonth();
-      monthLabels.push({ label: months[lastMonth], col: i });
-    }
-  });
 
   if (loading) {
     return (
       <div className="mb-8">
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">Submission Heatmap</p>
-        <div className="h-24 flex items-center justify-center text-sm text-muted-foreground">
+        <div className="h-24 flex items-center justify-center text-sm text-muted-foreground animate-pulse">
           Loading heatmap...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mb-8">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">Submission Heatmap</p>
+        <div className="h-24 flex items-center justify-center text-sm text-muted-foreground">
+          Could not load heatmap data
         </div>
       </div>
     );
@@ -109,31 +92,17 @@ const LeetCodeHeatmap = () => {
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Last Year</p>
       </div>
 
-      <div className="overflow-x-auto">
-        {/* Month labels */}
-        <div className="flex gap-[3px] mb-1 ml-0">
-          {monthLabels.map((m, i) => (
-            <span
-              key={i}
-              className="text-[9px] text-muted-foreground"
-              style={{ position: "relative", left: `${m.col * 13}px` }}
-            >
-              {i === 0 || monthLabels[i].col - (monthLabels[i - 1]?.col || 0) > 3 ? m.label : ""}
-            </span>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <div className="flex gap-[3px]">
+      <div className="overflow-x-auto pb-2">
+        <div className="inline-flex gap-[3px]">
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-[3px]">
               {Array.from({ length: 7 }).map((_, di) => {
                 const day = week[di];
-                if (!day) return <div key={di} className="w-[10px] h-[10px]" />;
+                if (!day) return <div key={di} className="w-2.5 h-2.5" />;
                 return (
                   <div
                     key={di}
-                    className={`w-[10px] h-[10px] rounded-full ${getColor(day.count)} transition-colors`}
+                    className={`w-2.5 h-2.5 rounded-full ${getColor(day.count)}`}
                     title={`${day.date.toLocaleDateString()}: ${day.count} submission${day.count !== 1 ? "s" : ""}`}
                   />
                 );
@@ -144,13 +113,13 @@ const LeetCodeHeatmap = () => {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-end gap-1 mt-3 text-[10px] text-muted-foreground">
+      <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] text-muted-foreground">
         <span>Less</span>
-        <div className="w-[10px] h-[10px] rounded-full bg-muted" />
-        <div className="w-[10px] h-[10px] rounded-full bg-purple-300 dark:bg-purple-800" />
-        <div className="w-[10px] h-[10px] rounded-full bg-purple-400 dark:bg-purple-600" />
-        <div className="w-[10px] h-[10px] rounded-full bg-purple-500" />
-        <div className="w-[10px] h-[10px] rounded-full bg-purple-600 dark:bg-purple-400" />
+        <div className="w-2.5 h-2.5 rounded-full heatmap-0" />
+        <div className="w-2.5 h-2.5 rounded-full heatmap-1" />
+        <div className="w-2.5 h-2.5 rounded-full heatmap-2" />
+        <div className="w-2.5 h-2.5 rounded-full heatmap-3" />
+        <div className="w-2.5 h-2.5 rounded-full heatmap-4" />
         <span>More</span>
       </div>
     </div>
