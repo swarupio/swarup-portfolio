@@ -1,3 +1,5 @@
+import AnimatedSection from "./AnimatedSection";
+
 const skillCategories = [
   {
     label: "LANGUAGES",
@@ -48,26 +50,28 @@ const skillCategories = [
 
 const SkillsSection = () => {
   return (
-    <div className="p-6 md:p-12 border-b">
-      <h2 className="font-serif text-2xl md:text-4xl italic mb-8">Tools & Tech</h2>
-      <div className="space-y-6">
-        {skillCategories.map((cat) => (
-          <div key={cat.label}>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">{cat.label}</p>
-            <div className="space-y-0">
-              {cat.skills.map((skill) => (
-                <div key={skill.name} className="flex justify-between items-center py-1.5 border-b last:border-b-0">
-                  <span className="text-sm font-medium">{skill.name}</span>
-                  {skill.level && (
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">[{skill.level}]</span>
-                  )}
-                </div>
-              ))}
+    <AnimatedSection>
+      <div className="p-6 md:p-12 border-b">
+        <h2 className="font-serif text-2xl md:text-4xl italic mb-8">Tools & Tech</h2>
+        <div className="space-y-6">
+          {skillCategories.map((cat) => (
+            <div key={cat.label}>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">{cat.label}</p>
+              <div className="space-y-0">
+                {cat.skills.map((skill) => (
+                  <div key={skill.name} className="flex justify-between items-center py-1.5 border-b last:border-b-0">
+                    <span className="text-sm font-medium">{skill.name}</span>
+                    {skill.level && (
+                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground">[{skill.level}]</span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </AnimatedSection>
   );
 };
 
