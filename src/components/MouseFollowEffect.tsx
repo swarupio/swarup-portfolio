@@ -18,7 +18,7 @@ const MouseFollowEffect = () => {
       <motion.div
         className="absolute w-64 h-64 rounded-full"
         style={{
-          background: "radial-gradient(circle, hsl(var(--primary) / 0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.03) 0%, transparent 70%)",
         }}
         animate={{
           x: mousePosition.x - 128,
@@ -28,7 +28,7 @@ const MouseFollowEffect = () => {
       />
       {/* Small dot */}
       <motion.div
-        className="absolute w-3 h-3 rounded-full bg-primary/20"
+        className="absolute w-3 h-3 rounded-full bg-primary/10"
         animate={{
           x: mousePosition.x - 6,
           y: mousePosition.y - 6,
