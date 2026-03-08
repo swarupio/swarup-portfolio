@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface CalendarData {
   [timestamp: string]: number;
 }
 
 const USERNAME = "swarup__";
+const DOT_SIZE = 10; // w-2.5 = 10px
+const GAP = 3;
+const COL_WIDTH = DOT_SIZE + GAP; // 13px per column
 
 const LeetCodeHeatmap = () => {
   const [calendar, setCalendar] = useState<CalendarData>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visibleWeeks, setVisibleWeeks] = useState(30);
 
   useEffect(() => {
     const fetchCalendar = async () => {
@@ -32,9 +37,23 @@ const LeetCodeHeatmap = () => {
     fetchCalendar();
   }, []);
 
-  // Build 52 weeks of data
+  // Measure container and calculate how many weeks fit
+  useEffect(() => {
+    const measure = () => {
+      if (containerRef.current) {
+        const width = containerRef.current.offsetWidth;
+        const cols = Math.floor((width + GAP) / COL_WIDTH);
+        setVisibleWeeks(Math.max(1, cols));
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Build all weeks
   const now = new Date();
-  const weeks: { date: Date; count: number }[][] = [];
+  const allWeeks: { date: Date; count: number }[][] = [];
 
   const start = new Date(now);
   start.setDate(start.getDate() - (52 * 7) - start.getDay());
@@ -49,12 +68,15 @@ const LeetCodeHeatmap = () => {
     currentWeek.push({ date: new Date(cursor), count: calendar[ts] || 0 });
 
     if (cursor.getDay() === 6) {
-      weeks.push(currentWeek);
+      allWeeks.push(currentWeek);
       currentWeek = [];
     }
     cursor.setDate(cursor.getDate() + 1);
   }
-  if (currentWeek.length > 0) weeks.push(currentWeek);
+  if (currentWeek.length > 0) allWeeks.push(currentWeek);
+
+  // Only show the most recent weeks that fit
+  const weeks = allWeeks.slice(-visibleWeeks);
 
   const getColor = (count: number): string => {
     if (count === 0) return "heatmap-0";
@@ -93,8 +115,8 @@ const LeetCodeHeatmap = () => {
         <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Last Year</p>
       </div>
 
-      <div className="overflow-x-auto pb-2">
-        <div className="inline-flex gap-[3px]">
+      <div ref={containerRef} className="overflow-hidden">
+        <div className="flex gap-[3px]">
           {weeks.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-[3px]">
               {Array.from({ length: 7 }).map((_, di) => {
