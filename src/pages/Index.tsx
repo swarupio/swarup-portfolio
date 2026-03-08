@@ -10,7 +10,7 @@ import FooterSection from "@/components/FooterSection";
 import avatarImg from "@/assets/avatar.png";
 
 const Index = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     if (isDark) {
