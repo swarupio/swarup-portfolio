@@ -1,3 +1,5 @@
+import LeetCodeHeatmap from "./LeetCodeHeatmap";
+
 const stats = [
   { label: "Problems Solved", value: "152" },
   { label: "Submissions", value: "575" },
