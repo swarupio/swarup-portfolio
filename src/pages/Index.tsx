@@ -24,6 +24,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen max-w-4xl mx-auto border-x bg-background text-foreground transition-colors duration-300">
+      <MouseFollowEffect />
       <HeroSection isDark={isDark} onToggle={() => setIsDark(!isDark)} />
       <main className="grid grid-cols-1 lg:grid-cols-12">
         <div className="lg:col-span-7 lg:border-r">
