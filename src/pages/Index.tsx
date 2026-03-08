@@ -31,8 +31,10 @@ const Index = () => {
           <LeetCodeSection />
         </div>
         <div className="lg:col-span-5">
+          <EducationSection />
           <ExperienceSection />
           <SkillsSection />
+        </div>
         </div>
       </main>
       <FooterSection />
