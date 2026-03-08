@@ -7,6 +7,7 @@ import EducationSection from "@/components/EducationSection";
 import SkillsSection from "@/components/SkillsSection";
 import LeetCodeSection from "@/components/LeetCodeSection";
 import FooterSection from "@/components/FooterSection";
+import avatarImg from "@/assets/avatar.png";
 
 const Index = () => {
   const [isDark, setIsDark] = useState(false);
@@ -31,6 +32,16 @@ const Index = () => {
           <LeetCodeSection />
         </div>
         <div className="lg:col-span-5">
+          {/* Avatar - like reference site */}
+          <div className="border-b flex justify-center bg-secondary/30 overflow-hidden">
+            <div className="w-full h-48 md:h-64 flex items-center justify-center">
+              <img
+                src={avatarImg}
+                alt="Swarup Patil avatar"
+                className="h-full w-auto object-contain grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </div>
+          </div>
           <ExperienceSection />
           <SkillsSection />
           <EducationSection />
