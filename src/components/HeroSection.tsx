@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  isDark: boolean;
+  onToggle: () => void;
+}
+
+const HeroSection = ({ isDark, onToggle }: HeroSectionProps) => {
   const [time, setTime] = useState(new Date());
-  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add("dark");
-      root.style.colorScheme = "dark";
-    } else {
-      root.classList.remove("dark");
-      root.style.colorScheme = "light";
-    }
-  }, [isDark]);
 
   const formattedTime = time.toLocaleTimeString("en-IN", { hour12: false, timeZone: "Asia/Kolkata" });
   const formattedDate = time.toLocaleDateString("en-US", {
@@ -37,7 +30,7 @@ const HeroSection = () => {
         </div>
         <div
           className="p-4 border-r cursor-pointer hover:bg-secondary transition-colors select-none"
-          onClick={() => setIsDark(!isDark)}
+          onClick={onToggle}
         >
           {isDark ? "Light Edition" : "Dark Edition"}
         </div>
