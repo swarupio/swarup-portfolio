@@ -34,7 +34,10 @@ const HeroSection = ({ isDark, onToggle }: HeroSectionProps) => {
         >
           {isDark ? "Dark Mode" : "Light Mode"}
         </div>
-        <div className="p-4 border-r font-mono">{formattedTime}</div>
+        <div className="p-4 border-r">
+          <span>Mumbai, IN</span>
+          <span className="ml-4 font-mono">{formattedTime}</span>
+        </div>
         <div className="p-4">{formattedDate}</div>
       </div>
 
