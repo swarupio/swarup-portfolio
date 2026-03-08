@@ -32,7 +32,7 @@ const HeroSection = ({ isDark, onToggle }: HeroSectionProps) => {
           className="p-4 border-r cursor-pointer hover:bg-secondary transition-colors select-none"
           onClick={onToggle}
         >
-          {isDark ? "Light Edition" : "Dark Edition"}
+          {isDark ? "Dark Mode" : "Light Mode"}
         </div>
         <div className="p-4 border-r font-mono">{formattedTime}</div>
         <div className="p-4">{formattedDate}</div>
