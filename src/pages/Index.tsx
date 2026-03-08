@@ -1,12 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import HeroSection from "@/components/HeroSection";
+import AboutSection from "@/components/AboutSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import ExperienceSection from "@/components/ExperienceSection";
+import SkillsSection from "@/components/SkillsSection";
+import LeetCodeSection from "@/components/LeetCodeSection";
+import FooterSection from "@/components/FooterSection";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen max-w-4xl mx-auto border-x bg-background">
+      <HeroSection />
+      <main className="grid grid-cols-1 lg:grid-cols-12">
+        {/* Left column */}
+        <div className="lg:col-span-7 lg:border-r">
+          <AboutSection />
+          <ProjectsSection />
+          <LeetCodeSection />
+        </div>
+        {/* Right column */}
+        <div className="lg:col-span-5">
+          <ExperienceSection />
+          <SkillsSection />
+        </div>
+      </main>
+      <FooterSection />
     </div>
   );
 };
