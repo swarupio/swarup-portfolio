@@ -45,6 +45,9 @@ const LeetCodeSection = () => {
         ))}
       </div>
 
+      {/* Heatmap */}
+      <LeetCodeHeatmap />
+
       {/* Breakdown bar */}
       <div className="mb-8">
         <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-3">Breakdown</p>
