@@ -43,8 +43,9 @@ const LeetCodeHeatmap = () => {
   const cursor = new Date(start);
 
   while (cursor <= now) {
-    const dayStart = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate());
-    const ts = Math.floor(dayStart.getTime() / 1000).toString();
+    const ts = Math.floor(
+      Date.UTC(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) / 1000,
+    ).toString();
     currentWeek.push({ date: new Date(cursor), count: calendar[ts] || 0 });
 
     if (cursor.getDay() === 6) {
