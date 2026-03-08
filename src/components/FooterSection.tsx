@@ -16,7 +16,7 @@ const FooterSection = () => {
           <h2 className="font-serif text-2xl md:text-4xl italic leading-snug">
             Let's build something<br />exceptional together.
           </h2>
-          <p className="text-3xl md:text-5xl mt-8 text-muted-foreground" style={{ fontFamily: "'UnifrakturMaguntia', cursive" }}>
+          <p className="text-3xl md:text-5xl mt-8 text-muted-foreground" style={{ fontFamily: "'Dancing Script', cursive" }}>
             swarup patil
           </p>
         </div>
