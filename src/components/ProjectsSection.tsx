@@ -1,4 +1,5 @@
 import AnimatedSection from "./AnimatedSection";
+import Tilt3DCard from "./Tilt3DCard";
 import { ArrowUpRight } from "lucide-react";
 
 const projects = [
