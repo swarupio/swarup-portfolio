@@ -31,7 +31,8 @@ const AboutSection = () => {
           </a>
           <a
             href="/resume.pdf"
-            download="Swarup_Patil_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-6 py-3 text-sm font-bold uppercase tracking-wider border hover:bg-secondary transition-colors inline-flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
