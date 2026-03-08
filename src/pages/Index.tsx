@@ -7,7 +7,7 @@ import EducationSection from "@/components/EducationSection";
 import SkillsSection from "@/components/SkillsSection";
 import LeetCodeSection from "@/components/LeetCodeSection";
 import FooterSection from "@/components/FooterSection";
-import avatarImg from "@/assets/avatar.png";
+
 
 const Index = () => {
   const [isDark, setIsDark] = useState(true);
