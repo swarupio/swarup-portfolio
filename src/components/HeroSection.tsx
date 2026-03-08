@@ -10,7 +10,14 @@ const HeroSection = () => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDark);
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add("dark");
+      root.style.colorScheme = "dark";
+    } else {
+      root.classList.remove("dark");
+      root.style.colorScheme = "light";
+    }
   }, [isDark]);
 
   const formattedTime = time.toLocaleTimeString("en-IN", { hour12: false, timeZone: "Asia/Kolkata" });
