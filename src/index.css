@@ -94,3 +94,34 @@
     font-family: var(--font-serif);
   }
 }
+
+@layer components {
+  .heatmap-0 {
+    background-color: hsl(var(--muted));
+  }
+  .heatmap-1 {
+    background-color: hsl(270 60% 75%);
+  }
+  .heatmap-2 {
+    background-color: hsl(270 60% 60%);
+  }
+  .heatmap-3 {
+    background-color: hsl(270 70% 50%);
+  }
+  .heatmap-4 {
+    background-color: hsl(270 80% 40%);
+  }
+
+  .dark .heatmap-1 {
+    background-color: hsl(270 50% 30%);
+  }
+  .dark .heatmap-2 {
+    background-color: hsl(270 60% 40%);
+  }
+  .dark .heatmap-3 {
+    background-color: hsl(270 70% 55%);
+  }
+  .dark .heatmap-4 {
+    background-color: hsl(270 80% 65%);
+  }
+}
