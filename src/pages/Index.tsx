@@ -33,14 +33,12 @@ const Index = () => {
         </div>
         <div className="lg:col-span-5">
           {/* Avatar - like reference site */}
-          <div className="border-b flex justify-center bg-secondary/30 overflow-hidden">
-            <div className="w-full h-48 md:h-64 flex items-center justify-center">
-              <img
-                src={avatarImg}
-                alt="Swarup Patil avatar"
-                className="h-full w-auto object-contain grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </div>
+          <div className="border-b overflow-hidden bg-secondary/30">
+            <img
+              src={avatarImg}
+              alt="Swarup Patil avatar"
+              className="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
           </div>
           <ExperienceSection />
           <SkillsSection />
