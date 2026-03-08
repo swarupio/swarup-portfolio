@@ -8,27 +8,38 @@ const socials = [
 
 const FooterSection = () => {
   return (
-    <div className="p-6 md:p-12 border-b">
-      <h2 className="font-serif text-2xl md:text-4xl italic mb-6">Get In Touch</h2>
-      <p className="text-muted-foreground mb-6 max-w-md">
-        I'm always open to new opportunities, collaborations, or just a friendly chat about tech.
-      </p>
-      <div className="flex gap-6">
-        {socials.map((s) => (
-          <a
-            key={s.label}
-            href={s.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm uppercase tracking-wider hover:text-foreground text-muted-foreground transition-colors"
-          >
-            <s.icon className="w-4 h-4" />
-            {s.label}
-          </a>
-        ))}
-      </div>
-      <div className="mt-12 pt-6 border-t text-xs text-muted-foreground uppercase tracking-wider">
-        © {new Date().getFullYear()} Swarup Patil · DBIT, Mumbai
+    <div className="border-t">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        {/* Left side */}
+        <div className="p-6 md:p-12 lg:border-r flex flex-col justify-between min-h-[200px]">
+          <h2 className="font-serif text-2xl md:text-4xl italic leading-snug">
+            Let's build something<br />exceptional together.
+          </h2>
+          <p className="font-serif text-3xl md:text-5xl italic mt-8 text-muted-foreground">
+            swarup patil
+          </p>
+        </div>
+
+        {/* Right side */}
+        <div className="p-6 md:p-12 flex flex-col justify-between">
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 border p-4 text-sm font-medium hover:bg-secondary transition-colors"
+              >
+                <s.icon className="w-5 h-5" />
+                {s.label}
+              </a>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider text-right">
+            © {new Date().getFullYear()} Swarup Patil
+          </p>
+        </div>
       </div>
     </div>
   );
