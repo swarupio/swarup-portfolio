@@ -31,9 +31,9 @@ const Index = () => {
           <LeetCodeSection />
         </div>
         <div className="lg:col-span-5">
-          <EducationSection />
           <ExperienceSection />
           <SkillsSection />
+          <EducationSection />
         </div>
       </main>
       <FooterSection />
