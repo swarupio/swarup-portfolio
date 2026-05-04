@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CalendarData {
   [timestamp: string]: number;
@@ -19,14 +20,31 @@ const LeetCodeHeatmap = () => {
   useEffect(() => {
     const fetchCalendar = async () => {
       try {
-        const res = await fetch(`https://leetcode-api-faisalshohag.vercel.app/${USERNAME}`);
-        const data = await res.json();
-        if (data?.submissionCalendar) {
-          const parsed = typeof data.submissionCalendar === "string"
-            ? JSON.parse(data.submissionCalendar)
-            : data.submissionCalendar;
-          setCalendar(parsed);
+        const currentYear = new Date().getUTCFullYear();
+        const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/leetcode-calendar`;
+        const headers = {
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string,
+        };
+
+        const [curRes, prevRes] = await Promise.all([
+          fetch(`${fnUrl}?username=${USERNAME}&year=${currentYear}`, { headers }),
+          fetch(`${fnUrl}?username=${USERNAME}&year=${currentYear - 1}`, { headers }),
+        ]);
+
+        const merged: CalendarData = {};
+        if (prevRes.ok) {
+          const prev = await prevRes.json();
+          Object.assign(merged, prev?.submissionCalendar || {});
         }
+        if (curRes.ok) {
+          const cur = await curRes.json();
+          Object.assign(merged, cur?.submissionCalendar || {});
+        } else {
+          throw new Error(`Failed to fetch calendar: ${curRes.status}`);
+        }
+
+        setCalendar(merged);
       } catch (err) {
         console.error("Failed to fetch LeetCode calendar:", err);
         setError(true);
