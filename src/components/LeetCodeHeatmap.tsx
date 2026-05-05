@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+
+const PERSONAL_SUPABASE_URL = "https://efpjuonqhumeaunexwyu.supabase.co";
+const PERSONAL_SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmcGp1b25xaHVtZWF1bmV4d3l1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODc3NTQsImV4cCI6MjA4ODU2Mzc1NH0.A2Q2k-p5gbRg8yoFx4FR8RqEQC5S4eosD63W_-q6ZNI";
 
 interface CalendarData {
   [timestamp: string]: number;
@@ -21,10 +24,10 @@ const LeetCodeHeatmap = () => {
     const fetchCalendar = async () => {
       try {
         const currentYear = new Date().getUTCFullYear();
-        const fnUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/leetcode-calendar`;
+        const fnUrl = `${PERSONAL_SUPABASE_URL}/functions/v1/leetcode-calendar`;
         const headers = {
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string,
+          Authorization: `Bearer ${PERSONAL_SUPABASE_ANON_KEY}`,
+          apikey: PERSONAL_SUPABASE_ANON_KEY,
         };
 
         const [curRes, prevRes] = await Promise.all([
