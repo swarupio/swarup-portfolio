@@ -22,7 +22,7 @@ const projects = [
     type: "Social Platform",
     description: "A comprehensive volunteering platform for individuals and NGOs to connect, schedule events, and share impact stories.",
     tech: "React, Node.js, PostgreSQL, Supabase",
-    link: "https://sociosquad.lovable.app",
+    link: "https://sociosquad.vercel.app",
   },
 ];
 
