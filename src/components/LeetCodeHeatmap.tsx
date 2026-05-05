@@ -1,64 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 
-const PERSONAL_SUPABASE_URL = "https://efpjuonqhumeaunexwyu.supabase.co";
-const PERSONAL_SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmcGp1b25xaHVtZWF1bmV4d3l1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI5ODc3NTQsImV4cCI6MjA4ODU2Mzc1NH0.A2Q2k-p5gbRg8yoFx4FR8RqEQC5S4eosD63W_-q6ZNI";
-
 interface CalendarData {
   [timestamp: string]: number;
 }
 
-const USERNAME = "swarup__";
-const DOT_SIZE = 10; // w-2.5 = 10px
+const DOT_SIZE = 10;
 const GAP = 3;
-const COL_WIDTH = DOT_SIZE + GAP; // 13px per column
+const COL_WIDTH = DOT_SIZE + GAP;
 
-const LeetCodeHeatmap = () => {
-  const [calendar, setCalendar] = useState<CalendarData>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+interface Props {
+  calendar: CalendarData;
+  loading: boolean;
+  error: boolean;
+}
+
+const LeetCodeHeatmap = ({ calendar, loading, error }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [visibleWeeks, setVisibleWeeks] = useState(30);
 
-  useEffect(() => {
-    const fetchCalendar = async () => {
-      try {
-        const currentYear = new Date().getUTCFullYear();
-        const fnUrl = `${PERSONAL_SUPABASE_URL}/functions/v1/leetcode-calendar`;
-        const headers = {
-          Authorization: `Bearer ${PERSONAL_SUPABASE_ANON_KEY}`,
-          apikey: PERSONAL_SUPABASE_ANON_KEY,
-        };
-
-        const [curRes, prevRes] = await Promise.all([
-          fetch(`${fnUrl}?username=${USERNAME}&year=${currentYear}`, { headers }),
-          fetch(`${fnUrl}?username=${USERNAME}&year=${currentYear - 1}`, { headers }),
-        ]);
-
-        const merged: CalendarData = {};
-        if (prevRes.ok) {
-          const prev = await prevRes.json();
-          Object.assign(merged, prev?.submissionCalendar || {});
-        }
-        if (curRes.ok) {
-          const cur = await curRes.json();
-          Object.assign(merged, cur?.submissionCalendar || {});
-        } else {
-          throw new Error(`Failed to fetch calendar: ${curRes.status}`);
-        }
-
-        setCalendar(merged);
-      } catch (err) {
-        console.error("Failed to fetch LeetCode calendar:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCalendar();
-  }, []);
-
-  // Measure container and calculate how many weeks fit
   useEffect(() => {
     const measure = () => {
       if (containerRef.current) {
@@ -72,22 +31,18 @@ const LeetCodeHeatmap = () => {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // Build all weeks
   const now = new Date();
   const allWeeks: { date: Date; count: number }[][] = [];
-
   const start = new Date(now);
-  start.setDate(start.getDate() - (52 * 7) - start.getDay());
+  start.setDate(start.getDate() - 52 * 7 - start.getDay());
 
   let currentWeek: { date: Date; count: number }[] = [];
   const cursor = new Date(start);
-
   while (cursor <= now) {
     const ts = Math.floor(
       Date.UTC(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) / 1000,
     ).toString();
     currentWeek.push({ date: new Date(cursor), count: calendar[ts] || 0 });
-
     if (cursor.getDay() === 6) {
       allWeeks.push(currentWeek);
       currentWeek = [];
@@ -96,7 +51,6 @@ const LeetCodeHeatmap = () => {
   }
   if (currentWeek.length > 0) allWeeks.push(currentWeek);
 
-  // Only show the most recent weeks that fit
   const weeks = allWeeks.slice(-visibleWeeks);
 
   const getColor = (count: number): string => {
@@ -156,7 +110,6 @@ const LeetCodeHeatmap = () => {
         </div>
       </div>
 
-      {/* Legend */}
       <div className="flex items-center justify-end gap-1.5 mt-3 text-[10px] text-muted-foreground">
         <span>Less</span>
         <div className="w-2.5 h-2.5 rounded-full heatmap-0" />

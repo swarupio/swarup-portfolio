@@ -16,8 +16,13 @@ Deno.serve(async (req) => {
     const year = yearParam ? parseInt(yearParam, 10) : new Date().getUTCFullYear();
 
     const query = `
-      query userProfileCalendar($username: String!, $year: Int) {
+      query userFull($username: String!, $year: Int) {
+        allQuestionsCount { difficulty count }
         matchedUser(username: $username) {
+          submitStats {
+            acSubmissionNum { difficulty count submissions }
+            totalSubmissionNum { difficulty count submissions }
+          }
           userCalendar(year: $year) {
             activeYears
             streak
@@ -38,7 +43,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         query,
         variables: { username, year },
-        operationName: "userProfileCalendar",
+        operationName: "userFull",
       }),
     });
 
@@ -51,8 +56,9 @@ Deno.serve(async (req) => {
     }
 
     const data = await lcRes.json();
-    const cal = data?.data?.matchedUser?.userCalendar;
-    if (!cal) {
+    const user = data?.data?.matchedUser;
+    const cal = user?.userCalendar;
+    if (!user || !cal) {
       return new Response(
         JSON.stringify({ error: "User not found or no calendar data", raw: data }),
         { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } },
@@ -64,21 +70,39 @@ Deno.serve(async (req) => {
         ? JSON.parse(cal.submissionCalendar)
         : cal.submissionCalendar;
 
+    // Compute max streak from submission calendar (consecutive days with > 0)
+    const days = Object.keys(submissionCalendar)
+      .map((t) => parseInt(t, 10))
+      .filter((t) => (submissionCalendar[t.toString()] || 0) > 0)
+      .sort((a, b) => a - b);
+    let maxStreak = 0;
+    let cur = 0;
+    let prev = 0;
+    for (const t of days) {
+      if (prev && t - prev === 86400) cur += 1;
+      else cur = 1;
+      if (cur > maxStreak) maxStreak = cur;
+      prev = t;
+    }
+
     return new Response(
       JSON.stringify({
         year,
         username,
         activeYears: cal.activeYears,
         streak: cal.streak,
+        maxStreak,
         totalActiveDays: cal.totalActiveDays,
         submissionCalendar,
+        submitStats: user.submitStats,
+        allQuestionsCount: data?.data?.allQuestionsCount,
       }),
       {
         status: 200,
         headers: {
           ...corsHeaders,
           "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=3600",
+          "Cache-Control": "public, max-age=86400",
         },
       },
     );
