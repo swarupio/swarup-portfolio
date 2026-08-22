@@ -10,9 +10,9 @@ const AboutSection = () => {
         </h2>
         <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-8 max-w-prose">
           A 20-year-old Computer Engineering student at DBIT, Mumbai with a passion for building things
-          that live on the internet. Currently in my second year, I'm deeply focused on Data Structures
+          that live on the internet. Currently in my third year, I'm deeply focused on Data Structures
           & Algorithms and full-stack web development. Beyond coding, I'm an active volunteer and
-          community contributor.
+          open-source contributor.
         </p>
         <div className="flex gap-4 flex-wrap">
           <a
@@ -30,7 +30,7 @@ const AboutSection = () => {
             GitHub
           </a>
           <a
-            href="/resume.pdf"
+            href="/Resume_Patil.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 text-sm font-bold uppercase tracking-wider border hover:bg-secondary transition-colors inline-flex items-center gap-2"
@@ -40,7 +40,7 @@ const AboutSection = () => {
           </a>
         </div>
         <div className="mt-8 flex gap-8 text-sm uppercase tracking-wider text-muted-foreground">
-          <span>2nd Year</span>
+          <span>3rd Year</span>
           <span>·</span>
           <span>3 Projects</span>
           <span>·</span>

@@ -11,11 +11,11 @@ const projects = [
     link: "https://splitr-4pfu.vercel.app/",
   },
   {
-    name: "ACM.DBIT Website",
-    type: "Community Platform",
-    description: "Developed a platform for the ACM club to showcase workshops, events, and member contributions.",
-    tech: "HTML, JavaScript, CSS",
-    link: "https://github.com/swarupio/ACM.DBIT-WEBSITE",
+    name: "Vantage Kernel Sim",
+    type: "Operating System Simulator",
+    description: "Built an interactive visualizer for core operating system concepts, featuring real-time CPU process scheduling, memory allocation strategies, and file system management.",
+    tech: "React, TypeScript, Tailwind CSS, Framer Motion",
+    link: "https://vantage-os-kernel-simulator.vercel.app/" // Update the repository name if you use a different one
   },
   {
     name: "SocioSquad",
