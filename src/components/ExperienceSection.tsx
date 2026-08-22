@@ -4,14 +4,14 @@ const experiences = [
   {
     role: "Asst. DSA Expert",
     org: "GDG DBIT",
-    period: "Oct 2025 – Present",
+    period: "Oct 2025 – August 2026",
     badge: "Active",
     description: "Assisting in curating DSA content, mentoring peers, and driving structured problem-solving initiatives. Contributed to organizing a structured 45-day DSA Bootcamp series.",
   },
   {
     role: "Tech Team Member",
     org: "ACM DBIT",
-    period: "Sept 2025 – Present",
+    period: "Sept 2025 – July 2026",
     badge: "Active",
     description: "Active member contributing to technical events, documentation, and building tools for the ACM chapter.",
   },

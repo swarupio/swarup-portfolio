@@ -2,8 +2,8 @@ import AnimatedSection from "./AnimatedSection";
 
 const EducationSection = () => {
   return (
-    <AnimatedSection>
-      <div className="p-6 md:p-12 border-b">
+    <AnimatedSection className="flex-1 flex flex-col">
+      <div className="p-6 md:p-12 border-b flex-1">
         <h2 className="font-serif text-2xl md:text-4xl italic mb-8">Education</h2>
         <div>
           <h3 className="font-semibold text-base uppercase tracking-wide">

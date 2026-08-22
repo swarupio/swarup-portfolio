@@ -1,15 +1,17 @@
-name: Keep Supabase Alive
+name: Supabase Keep Alive
 
 on:
   schedule:
-    # Runs at 00:00 every 3 days
-    - cron: '0 0 */3 * *'
-  workflow_dispatch: # Allows you to run it manually from the GitHub UI if needed
+    # Run every 2 days at midnight UTC
+    - cron: '0 0 */2 * *'
+  # Allow manual triggering
+  workflow_dispatch:
 
 jobs:
-  ping-supabase:
+  ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Edge Function
-        # This securely hits your specific Supabase project to register activity
-        run: curl -s "https://efpjuonqhumeaunexwyu.supabase.co/functions/v1/leetcode-calendar" > /dev/null
+      - name: Ping Supabase REST API
+        run: |
+          echo "Pinging Supabase to prevent project pause..."
+          curl -s -o /dev/null -w "%{http_code}" https://efpjuonqhumeaunexwyu.supabase.co/rest/v1/

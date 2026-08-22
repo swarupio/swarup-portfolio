@@ -39,11 +39,8 @@ const topSkills = [
   { level: "Fundamental", skills: "Array, String, Sorting" },
 ];
 
-const fnUrl = `${PERSONAL_SUPABASE_URL}/functions/v1/leetcode-calendar`;
-const headers = {
-  Authorization: `Bearer ${PERSONAL_SUPABASE_ANON_KEY}`,
-  apikey: PERSONAL_SUPABASE_ANON_KEY,
-};
+const fnUrl = `/api/leetcode-calendar`;
+const headers = {}; // no auth needed for local proxy
 
 const LeetCodeSection = () => {
   const [data, setData] = useState<LCData | null>(null);

@@ -9,6 +9,8 @@ import LeetCodeSection from "@/components/LeetCodeSection";
 import FooterSection from "@/components/FooterSection";
 import MouseFollowEffect from "@/components/MouseFollowEffect";
 
+import OpenSourceSection from "@/components/OpenSourceSection";
+
 const Index = () => {
   const [isDark, setIsDark] = useState(true);
 
@@ -27,15 +29,19 @@ const Index = () => {
       <MouseFollowEffect />
       <HeroSection isDark={isDark} onToggle={() => setIsDark(!isDark)} />
       <main className="grid grid-cols-1 lg:grid-cols-12">
-        <div className="lg:col-span-7 lg:border-r">
+        <div className="lg:col-span-7 lg:border-r flex flex-col">
           <AboutSection />
           <ProjectsSection />
           <LeetCodeSection />
+          <EducationSection />
         </div>
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 flex flex-col">
+          <div className="hidden lg:flex border-b w-full overflow-hidden">
+            <img src="/batman.png" alt="batman" className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" />
+          </div>
           <ExperienceSection />
           <SkillsSection />
-          <EducationSection />
+          <OpenSourceSection />
         </div>
       </main>
       <FooterSection />
